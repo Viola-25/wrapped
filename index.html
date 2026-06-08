@@ -2,318 +2,213 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nosso Wrapped</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nosso Presente Especial</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        :root {
-            --bg-main: #121212;
-            --text-primary: #FFFFFF;
-            --text-secondary: #B3B3B3;
-            --card-bg: #282828;
-            --card-hover: #3E3E3E;
-            --spotify-green: #1DB954;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            background-color: #000;
-            color: var(--text-primary);
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 414px; /* iPhone Pro Max width approx */
-            background-color: var(--bg-main);
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-            padding-bottom: 40px;
-        }
-
-        /* HEADER */
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .top-bar svg { width: 24px; height: 24px; fill: var(--text-primary); cursor: pointer; }
-        .header-title { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
-
-        /* PLAYER SECTION */
-        .album-cover { width: 100%; aspect-ratio: 1/1; background-color: #333; border-radius: 8px; object-fit: cover; margin-bottom: 25px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-        .song-info-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .song-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.5px; }
-        .song-artist { font-size: 16px; color: var(--text-secondary); font-weight: 400; }
-        .verified-icon { width: 24px; height: 24px; fill: var(--text-primary); }
-
-        /* PROGRESS BAR */
-        .progress-container { margin-bottom: 15px; cursor: pointer; }
-        .progress-bar { width: 100%; height: 4px; background-color: #4D4D4D; border-radius: 2px; position: relative; }
-        .progress-fill { width: 30%; height: 100%; background-color: var(--text-primary); border-radius: 2px; position: relative; transition: background-color 0.2s; }
-        .progress-container:hover .progress-fill { background-color: var(--spotify-green); }
-        .progress-handle { width: 12px; height: 12px; background-color: #fff; border-radius: 50%; position: absolute; right: -6px; top: -4px; opacity: 0; transition: opacity 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .progress-container:hover .progress-handle { opacity: 1; }
-        .time-info { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); font-weight: 400; margin-top: 8px; }
-
-        /* CONTROLS */
-        .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-        .controls svg { fill: var(--text-primary); width: 24px; height: 24px; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
-        .controls svg:hover { opacity: 1; }
-        .controls .play-btn { width: 64px; height: 64px; background-color: var(--text-primary); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 1; transition: transform 0.1s; }
-        .controls .play-btn:active { transform: scale(0.95); }
-        .controls .play-btn svg { fill: #000; width: 28px; height: 28px; margin-left: 4px; opacity: 1; }
-
-        /* CARDS GERAIS */
-        .section-title { font-size: 20px; font-weight: 700; margin-bottom: 15px; letter-spacing: -0.5px; }
-
-        /* CARD: SOBRE O CASAL (GRID) */
-        .stats-card { margin-bottom: 20px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .stat-box { background-color: #242424; border-radius: 8px; padding: 16px 10px; text-align: center; transition: background-color 0.2s; cursor: default; }
-        .stat-box:hover { background-color: #2A2A2A; }
-        .stat-value { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-        .stat-label { font-size: 12px; color: var(--text-secondary); font-weight: 400; }
-
-        /* CARD: MENSAGEM AZUL */
-        .message-card { background-color: #559DD9; border-radius: 12px; padding: 24px; margin-bottom: 20px; color: #000; }
-        .message-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; opacity: 0.9; }
-        .message-card p { font-size: 22px; font-weight: 700; line-height: 1.3; letter-spacing: -0.5px; margin-bottom: 24px; }
-        .btn-white { background-color: #fff; color: #000; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; display: inline-block; transition: transform 0.1s; }
-        .btn-white:active { transform: scale(0.95); }
-
-        /* CARD: RETROSPECTIVA PRETO */
-        .wrapped-card { background-color: #0A0A0A; border-radius: 12px; padding: 40px 24px; text-align: center; position: relative; overflow: hidden; cursor: pointer; border: 1px solid #222; }
-        .wrapped-card h2 { font-size: 28px; font-weight: 900; margin-bottom: 8px; letter-spacing: -1px; z-index: 2; position: relative; }
-        .wrapped-card p { font-size: 15px; color: var(--text-secondary); margin-bottom: 24px; z-index: 2; position: relative; }
-        .btn-blue { background-color: #3B82F6; color: #fff; padding: 12px 32px; border-radius: 30px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; position: relative; z-index: 2; transition: transform 0.1s; }
-        .btn-blue:active { transform: scale(0.95); }
+        * { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #000; color: #FFFFFF; display: flex; justify-content: center; }
         
-        /* Simulação das fitas 3D da imagem */
-        .ribbon-top { position: absolute; top: -20px; left: -20px; width: 120%; height: 60px; background: linear-gradient(90deg, #ff0a54, #ff477e, #0A0A0A); transform: rotate(-5deg); filter: blur(8px); opacity: 0.6; z-index: 1; }
-        .ribbon-bottom { position: absolute; bottom: -20px; right: -20px; width: 120%; height: 80px; background: linear-gradient(90deg, #0A0A0A, #ff477e, #ff0a54); transform: rotate(-5deg); filter: blur(8px); opacity: 0.6; z-index: 1; }
+        /* Animações específicas da secção Inverno */
+        @keyframes fall { 0% { opacity: 0; transform: translateY(-20px) translateX(var(--drift)); } 10% { opacity: 1; } 90% { opacity: 0.6; } 100% { opacity: 0; transform: translateY(220px) translateX(calc(var(--drift) * -1)); } } 
+        @keyframes winter-slow-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } } 
+        @keyframes winter-glow-pulse { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.25; transform: scale(1.05); } } 
+        .snow-particle { animation-name: fall; animation-timing-function: linear; animation-iteration-count: infinite; fill: #EAF6F9; } 
+        .winter-spin { transform-origin: center; transform-box: fill-box; animation: winter-slow-spin 120s linear infinite; } 
+        .winter-glow { transform-origin: center; transform-box: fill-box; animation: winter-glow-pulse 8s ease-in-out infinite 2s; } 
 
-        /* ================= STORIES (WRAPPED) ================= */
-        .story-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #000; z-index: 1000; display: none; flex-direction: column; }
-        
-        /* Progresso igual ao Insta/Spotify */
-        .story-progress-container { display: flex; gap: 4px; padding: 12px 8px; width: 100%; position: absolute; top: 0; z-index: 1001; }
-        .story-progress-bar { flex: 1; height: 2px; background-color: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden; }
-        .story-progress-fill { width: 0%; height: 100%; background-color: #fff; }
-        
-        .story-content { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; }
-        
-        /* Zonas de clique para passar/voltar */
-        .nav-left { position: absolute; left: 0; top: 0; width: 30%; height: 100%; z-index: 1000; cursor: pointer; }
-        .nav-right { position: absolute; right: 0; top: 0; width: 70%; height: 100%; z-index: 1000; cursor: pointer; }
-
-        /* Estilos visuais dinâmicos para as telas do story */
-        .story-title-main { font-size: 36px; font-weight: 900; letter-spacing: -1.5px; z-index: 10; line-height: 1.1; }
-        .story-subtitle { font-size: 18px; font-weight: 600; margin-top: 15px; z-index: 10; }
-        
-        /* Telas Específicas (Simulando as imagens) */
-        .bg-green-stair { background-color: #000; position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; }
-        .bg-green-stair::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0A4A1C 0%, #000000 50%, #0A4A1C 100%); z-index: 1; opacity: 0.8; }
-        
-        .bg-red-diamond { background-color: #000; position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; }
-        .bg-red-diamond::before { content: ""; position: absolute; top: 10%; left: 50%; transform: translateX(-50%) rotate(45deg); width: 80vw; height: 80vw; background-color: #B91D1D; z-index: 1; border-radius: 20px; }
-
-        .bg-repeating { display: flex; flex-direction: column; height: 100%; width: 100%; justify-content: space-around; background-color: #000; overflow: hidden; padding: 20px 0;}
-        .repeat-row { font-size: 60px; font-weight: 900; letter-spacing: -3px; line-height: 0.8; width: 150%; text-align: left; margin-left: -10px; }
+        /* Suavizar o scroll da página */
+        html { scroll-behavior: smooth; }
     </style>
 </head>
-<body>
+<body class="bg-black">
 
-    <div class="app-container">
-        <div class="top-bar">
-            <svg viewBox="0 0 24 24"><path d="M15.957 2.793a1 1 0 0 1 0 1.414L8.164 12l7.793 7.793a1 1 0 1 1-1.414 1.414L5.336 12l9.207-9.207a1 1 0 0 1 1.414 0z"/></svg>
-            <div class="header-title">Juntos para sempre ❤️</div>
-            <svg viewBox="0 0 24 24"><path d="M4.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm7.5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm7.5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
-        </div>
-
-        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=400&auto=format&fit=crop" alt="Capa" class="album-cover">
+    <div class="w-full max-w-[414px] bg-[#121212] min-h-screen relative overflow-x-hidden shadow-2xl">
         
-        <div class="song-info-container">
-            <div>
-                <div class="song-title">Still Loving You</div>
-                <div class="song-artist">Leonardo e Yasmin</div>
+        <div class="px-4 pt-6 pb-10">
+            <div class="flex justify-between items-center mb-6 text-white">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M15.957 2.793a1 1 0 0 1 0 1.414L8.164 12l7.793 7.793a1 1 0 1 1-1.414 1.414L5.336 12l9.207-9.207a1 1 0 0 1 1.414 0z"/></svg>
+                <div class="text-[13px] font-bold tracking-wide uppercase">Juntos para sempre ❤️</div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="12" r="2"/></svg>
             </div>
-            <svg class="verified-icon" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1.25 14L6.5 11.75l1.41-1.41 2.84 2.83 6.09-6.09 1.41 1.42L10.75 16z"/></svg>
+
+            <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=400&auto=format&fit=crop" class="w-full aspect-square bg-[#333] rounded-xl object-cover shadow-[0_10px_30px_rgba(0,0,0,0.8)] mb-8">
+            
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <div class="text-2xl font-bold text-white tracking-tight">A Nossa Música</div>
+                    <div class="text-base text-[#B3B3B3]">Leonardo e Yasmin</div>
+                </div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1.25 14L6.5 11.75l1.41-1.41 2.84 2.83 6.09-6.09 1.41 1.42L10.75 16z"/></svg>
+            </div>
+
+            <div class="mb-10">
+                <div class="w-full h-1.5 bg-[#4D4D4D] rounded-full relative mb-2 cursor-pointer group">
+                    <div class="w-[45%] h-full bg-white group-hover:bg-[#1DB954] transition-colors rounded-full relative">
+                        <div class="w-3 h-3 bg-white rounded-full absolute -right-1.5 -top-[3px] opacity-0 group-hover:opacity-100 shadow-md"></div>
+                    </div>
+                </div>
+                <div class="flex justify-between text-[11px] font-semibold text-[#B3B3B3]">
+                    <span>1:21</span><span>-3:26</span>
+                </div>
+                
+                <div class="flex justify-between items-center mt-6">
+                    <svg class="w-6 h-6 fill-white opacity-70" viewBox="0 0 16 16"><path d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75 13.15.922zM.391 3.5H0V2h.391c1.109 0 2.16.513 2.826 1.396l.683.905-1.167 1.36-.532-.705A2.25 2.25 0 0 0 .39 3.5zm10.769 8.96c-.198 0-.395-.038-.582-.112l-1.086 1.266c.516.273 1.092.417 1.668.417h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 12.25l-2.829-2.828a.75.75 0 0 0-1.06 1.06l1.018 1.018h-1.947a2.25 2.25 0 0 1-1.378-.444z"/></svg>
+                    <svg class="w-8 h-8 fill-white" viewBox="0 0 16 16"><path d="M3.3 1a.7.7 0 0 1 .7.7v5.15l9.95-5.744a.7.7 0 0 1 1.05.606v12.575a.7.7 0 0 1-1.05.607L4 9.149V14.3a.7.7 0 0 1-1.4 0V1.7a.7.7 0 0 1 .7-.7z"/></svg>
+                    <div class="w-16 h-16 bg-white rounded-full flex justify-center items-center cursor-pointer hover:scale-105 transition-transform">
+                        <svg class="w-7 h-7 fill-black ml-1" viewBox="0 0 24 24"><path d="M7.05 3.606l13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"/></svg>
+                    </div>
+                    <svg class="w-8 h-8 fill-white" viewBox="0 0 16 16"><path d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.106A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 1.4 0V1.7a.7.7 0 0 0-.7-.7z"/></svg>
+                    <svg class="w-6 h-6 fill-white opacity-70" viewBox="0 0 16 16"><path d="M0 4.75A3.75 3.75 0 0 1 3.75 1h8.5A3.75 3.75 0 0 1 16 4.75v5a3.75 3.75 0 0 1-3.75 3.75H9.81l1.018 1.018a.75.75 0 1 1-1.06 1.06L6.939 12.75l2.829-2.828a.75.75 0 1 1 1.06 1.06L9.811 12h2.439a2.25 2.25 0 0 0 2.25-2.25v-5a2.25 2.25 0 0 0-2.25-2.25h-8.5A2.25 2.25 0 0 0 1.5 4.75v5A2.25 2.25 0 0 0 3.75 12H5v1.5H3.75A3.75 3.75 0 0 1 0 9.75v-5z"/></svg>
+                </div>
+            </div>
+
+            <hr class="border-[#2A2A2A] my-8">
+
+            <div class="mb-10">
+                <h3 class="text-xl font-bold text-white tracking-tight mb-1">Leonardo e Yasmin</h3>
+                <p class="text-[13px] text-[#B3B3B3] mb-6">Começámos a escrever a nossa história em 2022</p>
+                
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-[#242424] rounded-xl p-3 text-center border border-[#333]"><div class="text-2xl font-black text-white" id="t-anos">0</div><div class="text-[11px] text-[#B3B3B3] mt-1 uppercase tracking-wide">Anos</div></div>
+                    <div class="bg-[#242424] rounded-xl p-3 text-center border border-[#333]"><div class="text-2xl font-black text-white" id="t-meses">0</div><div class="text-[11px] text-[#B3B3B3] mt-1 uppercase tracking-wide">Meses</div></div>
+                    <div class="bg-[#242424] rounded-xl p-3 text-center border border-[#333]"><div class="text-2xl font-black text-white" id="t-dias">0</div><div class="text-[11px] text-[#B3B3B3] mt-1 uppercase tracking-wide">Dias</div></div>
+                    <div class="bg-[#242424] rounded-xl p-3 text-center border border-[#333]"><div class="text-2xl font-black text-white" id="t-horas">0</div><div class="text-[11px] text-[#B3B3B3] mt-1 uppercase tracking-wide">Horas</div></div>
+                    <div class="bg-[#242424] rounded-xl p-3 text-center border border-[#333]"><div class="text-2xl font-black text-white" id="t-min">0</div><div class="text-[11px] text-[#B3B3B3] mt-1 uppercase tracking-wide">Min</div></div>
+                    <div class="bg-[#242424] rounded-xl p-3 text-center border border-[#333]"><div class="text-2xl font-black text-white" id="t-seg">0</div><div class="text-[11px] text-[#B3B3B3] mt-1 uppercase tracking-wide">Seg</div></div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-[#3B82F6] to-[#2563EB] rounded-2xl p-6 text-white mb-8 shadow-lg">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-blue-200 mb-3">Mensagem especial</h3>
+                <p class="text-[22px] font-bold leading-tight mb-5">E pensar que tudo começou do nada... ✨ Olha só pra gente agora.</p>
+                <button class="bg-white text-blue-600 font-bold py-2.5 px-6 rounded-full text-sm shadow-md hover:scale-105 transition-transform">Ler Mais</button>
+            </div>
         </div>
 
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill"><div class="progress-handle"></div></div>
-            </div>
-            <div class="time-info">
-                <span>0:01</span>
-                <span>-4:46</span>
-            </div>
-        </div>
-
-        <div class="controls">
-            <svg viewBox="0 0 16 16"><path d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75 13.15.922zM.391 3.5H0V2h.391c1.109 0 2.16.513 2.826 1.396l.683.905-1.167 1.36-.532-.705A2.25 2.25 0 0 0 .39 3.5zm10.769 8.96c-.198 0-.395-.038-.582-.112l-1.086 1.266c.516.273 1.092.417 1.668.417h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 12.25l-2.829-2.828a.75.75 0 0 0-1.06 1.06l1.018 1.018h-1.947a2.25 2.25 0 0 1-1.378-.444z"/></svg>
-            <svg viewBox="0 0 16 16"><path d="M3.3 1a.7.7 0 0 1 .7.7v5.15l9.95-5.744a.7.7 0 0 1 1.05.606v12.575a.7.7 0 0 1-1.05.607L4 9.149V14.3a.7.7 0 0 1-1.4 0V1.7a.7.7 0 0 1 .7-.7z"/></svg>
-            <div class="play-btn">
-                <svg viewBox="0 0 24 24"><path d="M7.05 3.606l13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"/></svg>
-            </div>
-            <svg viewBox="0 0 16 16"><path d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.106A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 1.4 0V1.7a.7.7 0 0 0-.7-.7z"/></svg>
-            <svg viewBox="0 0 16 16"><path d="M0 4.75A3.75 3.75 0 0 1 3.75 1h8.5A3.75 3.75 0 0 1 16 4.75v5a3.75 3.75 0 0 1-3.75 3.75H9.81l1.018 1.018a.75.75 0 1 1-1.06 1.06L6.939 12.75l2.829-2.828a.75.75 0 1 1 1.06 1.06L9.811 12h2.439a2.25 2.25 0 0 0 2.25-2.25v-5a2.25 2.25 0 0 0-2.25-2.25h-8.5A2.25 2.25 0 0 0 1.5 4.75v5A2.25 2.25 0 0 0 3.75 12H5v1.5H3.75A3.75 3.75 0 0 1 0 9.75v-5z"/></svg>
-        </div>
-
-        <div class="section-title">Leonardo e Yasmin</div>
-        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 15px; margin-top: -10px;">Juntos desde 2022</p>
-        
-        <div class="stats-card">
-            <div class="stats-grid">
-                <div class="stat-box"><div class="stat-value" id="t-anos">0</div><div class="stat-label">Anos</div></div>
-                <div class="stat-box"><div class="stat-value" id="t-meses">0</div><div class="stat-label">Meses</div></div>
-                <div class="stat-box"><div class="stat-value" id="t-dias">0</div><div class="stat-label">Dias</div></div>
-                <div class="stat-box"><div class="stat-value" id="t-horas">0</div><div class="stat-label">Horas</div></div>
-                <div class="stat-box"><div class="stat-value" id="t-min">0</div><div class="stat-label">Minutos</div></div>
-                <div class="stat-box"><div class="stat-value" id="t-seg">0</div><div class="stat-label">Segundos</div></div>
+        <div class="relative w-full py-24 flex flex-col items-center justify-center px-4 overflow-hidden" style="background: radial-gradient(rgb(13, 27, 45) 0%, rgb(6, 16, 26) 40%, rgb(2, 6, 8) 100%);">
+            <div class="z-10 flex flex-col items-center justify-center text-center w-full max-w-md">
+                <h1 class="text-2xl font-bold text-zinc-300 mb-2">Aqueceste o meu coração</h1>
+                <p class="text-sm text-zinc-500 mb-8 tracking-wide">E todas as estações com você são mágicas</p>
+                
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-64 h-64 lg:w-80 lg:h-80 drop-shadow-2xl">
+                    <defs><radialGradient id="wg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A8D5E2" stop-opacity="0.22"/><stop offset="60%" stop-color="#A8D5E2" stop-opacity="0.08"/><stop offset="100%" stop-color="#121212" stop-opacity="0"/></radialGradient><filter id="gf"><feGaussianBlur stdDeviation="4"/></filter></defs>
+                    <circle cx="100" cy="100" r="100" fill="url(#wg)" filter="url(#gf)"/>
+                    <circle class="winter-glow" cx="100" cy="100" r="50" fill="rgba(168,213,226,0.08)" filter="url(#gf)"/>
+                    <g><circle class="snow-particle" cx="50" r="1.5" style="animation-duration: 10s; --drift: 10px;"/><circle class="snow-particle" cx="150" r="1" style="animation-duration: 12s; --drift: -8px;"/><circle class="snow-particle" cx="85" r="0.8" style="animation-duration: 14s; --drift: 5px;"/></g>
+                    <g transform="translate(100, 100)"><g class="winter-spin"><g stroke="#EAF6F9" stroke-linecap="round" fill="none">
+                        <g transform="rotate(0)"><line x1="0" y1="0" x2="0" y2="-65" stroke-width="4"></line></g>
+                        <g transform="rotate(60)"><line x1="0" y1="0" x2="0" y2="-65" stroke-width="4"></line></g>
+                        <g transform="rotate(120)"><line x1="0" y1="0" x2="0" y2="-65" stroke-width="4"></line></g>
+                        <g transform="rotate(180)"><line x1="0" y1="0" x2="0" y2="-65" stroke-width="4"></line></g>
+                        <g transform="rotate(240)"><line x1="0" y1="0" x2="0" y2="-65" stroke-width="4"></line></g>
+                        <g transform="rotate(300)"><line x1="0" y1="0" x2="0" y2="-65" stroke-width="4"></line></g>
+                    </g></g></g>
+                </svg>
             </div>
         </div>
 
-        <div class="message-card">
-            <h3>Mensagem especial</h3>
-            <p>E pensar que tudo começou do nada... ✨ Olha só pra gente agora: escrevendo nossa própria história.</p>
-            <button class="btn-white">Mostrar Mensagem</button>
-        </div>
-
-        <div class="wrapped-card" onclick="openStory()">
-            <div class="ribbon-top"></div>
-            <h2>Sua Retrospectiva</h2>
-            <p>Explore o seu tempo de casal</p>
-            <button class="btn-blue">Vamos lá</button>
-            <div class="ribbon-bottom"></div>
-        </div>
-    </div>
-
-    <div class="story-container" id="story-modal">
-        <div class="story-progress-container" id="progress-container"></div>
-        
-        <div class="nav-left" onclick="prevStory()"></div>
-        <div class="nav-right" onclick="nextStory()"></div>
-
-        <div class="story-content" id="story-content">
+        <div class="relative w-full py-24 flex flex-col items-center px-6 overflow-hidden text-left" style="background: radial-gradient(at center top, rgba(244, 114, 182, 0.1) 0%, rgb(18, 18, 18) 70%);">
+            <div class="w-full text-center mb-16 relative z-10">
+                <h1 class="text-3xl font-black text-white mb-2">A Nossa História</h1>
+                <p class="text-[#F472B6]">Cada momento que nos trouxe até aqui</p>
             </div>
+            
+            <div class="relative w-full max-w-sm pb-10 flex-1 flex flex-col justify-center z-10">
+                <div class="absolute left-[11px] top-0 h-full w-0.5 bg-gradient-to-b from-[#F472B6] via-[#F472B6]/30 to-transparent"></div>
+                
+                <div class="relative pl-10 mb-12 w-full">
+                    <div class="absolute left-[5px] top-1.5 w-3.5 h-3.5 bg-[#F472B6] rounded-full shadow-[0_0_15px_rgba(244,114,182,0.8)] border-2 border-black"></div>
+                    <p class="text-[#F472B6] font-bold text-xl mb-2">Maio 2022</p>
+                    <p class="text-[#B3B3B3] text-base leading-relaxed">Nossas almas se encontraram pela primeira vez. A melhor decisão da minha vida.</p>
+                </div>
+                
+                <div class="relative pl-10 mb-12 w-full">
+                    <div class="absolute left-[5px] top-1.5 w-3.5 h-3.5 bg-[#F472B6] rounded-full shadow-[0_0_15px_rgba(244,114,182,0.8)] border-2 border-black"></div>
+                    <p class="text-[#F472B6] font-bold text-xl mb-2">Junho 2022</p>
+                    <p class="text-[#B3B3B3] text-base leading-relaxed">O primeiro beijo e o início da nossa história real. Onde tudo fez sentido.</p>
+                </div>
+
+                <div class="relative pl-10 w-full">
+                    <div class="absolute left-[5px] top-1.5 w-3.5 h-3.5 bg-[#F472B6] rounded-full shadow-[0_0_15px_rgba(244,114,182,0.8)] border-2 border-black"></div>
+                    <p class="text-[#F472B6] font-bold text-xl mb-2">Novembro 2022</p>
+                    <p class="text-[#B3B3B3] text-base leading-relaxed">O pedido de namoro e a oficialização de algo único que construímos juntos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col w-full py-20 px-6 justify-center bg-[#0a0a0a] border-t border-[#222]">
+            <h2 class="text-3xl font-black tracking-tight text-white text-center mb-10">Conquistas Desbloqueadas</h2>
+            
+            <div class="rounded-2xl p-[2px] mb-12 w-full max-w-sm mx-auto shadow-2xl" style="background: linear-gradient(145deg, rgb(192, 132, 252), rgb(139, 92, 246), rgb(192, 132, 252));">
+                <div class="rounded-[14px] relative overflow-hidden py-10 px-5 flex flex-col items-center gap-3 bg-[#121212]">
+                    <span class="text-[12px] font-bold tracking-[0.25em] uppercase px-4 py-1.5 rounded-full text-[#A78BFA] bg-[#A78BFA]/10 border border-[#A78BFA]/20">RANKING</span>
+                    <span class="font-black leading-none text-7xl mt-2 drop-shadow-lg" style="background: linear-gradient(145deg, rgb(192, 132, 252), rgb(139, 92, 246), rgb(192, 132, 252)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">#3</span>
+                    <span class="text-[16px] font-semibold text-[#B3B3B3] text-center mt-3">Casal há mais tempo junto</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 mb-8 w-full max-w-sm mx-auto opacity-50">
+                <div class="flex-1 h-px bg-white/20"></div>
+                <span class="text-[11px] font-bold tracking-[0.15em] uppercase text-white">Medalhas</span>
+                <div class="flex-1 h-px bg-white/20"></div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 w-full max-w-sm mx-auto mb-10">
+                <div class="rounded-xl p-[2px] hover:-translate-y-1 transition-transform" style="background: linear-gradient(145deg, rgb(253, 230, 138), rgb(245, 158, 11), rgb(253, 230, 138));">
+                    <div class="rounded-[10px] bg-[#1a1a1a] aspect-square flex flex-col items-center justify-center p-2 shadow-inner">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-md"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"/><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/></svg>
+                        <span class="text-[11px] font-bold text-white text-center mt-3">1000 Dias</span>
+                    </div>
+                </div>
+                <div class="rounded-xl p-[2px] hover:-translate-y-1 transition-transform" style="background: linear-gradient(145deg, rgb(192, 132, 252), rgb(139, 92, 246), rgb(192, 132, 252));">
+                    <div class="rounded-[10px] bg-[#1a1a1a] aspect-square flex flex-col items-center justify-center p-2 shadow-inner">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-md"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"/></svg>
+                        <span class="text-[11px] font-bold text-white text-center mt-3">Aniversário</span>
+                    </div>
+                </div>
+                <div class="rounded-xl p-[2px] hover:-translate-y-1 transition-transform" style="background: linear-gradient(145deg, rgb(96, 165, 250), rgb(59, 130, 246), rgb(96, 165, 250));">
+                    <div class="rounded-[10px] bg-[#1a1a1a] aspect-square flex flex-col items-center justify-center p-2 shadow-inner">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-md"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z"/><path d="M16 8 2 22"/><path d="M17.5 15H9"/></svg>
+                        <span class="text-[11px] font-bold text-white text-center mt-3">Poeta</span>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center text-[#4D4D4D] text-xs font-semibold mt-4">E a história continua...</p>
+        </div>
+
     </div>
 
     <script>
-        // ================== CONTADOR DE TEMPO ==================
-        // Altere a data aqui: Ano, Mês (0=Jan, 1=Fev...), Dia
+        // Defina a data do início do namoro aqui (Ano, Mês-1, Dia)
+        // Exemplo: 1 de Janeiro de 2022 (Janeiro é 0)
         const dataInicio = new Date(2022, 0, 1, 0, 0, 0); 
-        let diasTotaisCasal = 0;
 
         function atualizarContador() {
             const diferenca = new Date() - dataInicio;
-
+            
+            // Cálculos matemáticos
             const segTotal = Math.floor(diferenca / 1000);
             const minTotal = Math.floor(segTotal / 60);
             const horTotal = Math.floor(minTotal / 60);
-            diasTotaisCasal = Math.floor(horTotal / 24);
+            const diasTotais = Math.floor(horTotal / 24);
 
-            document.getElementById('t-anos').innerText = Math.floor(diasTotaisCasal / 365);
-            document.getElementById('t-meses').innerText = Math.floor((diasTotaisCasal % 365) / 30);
-            document.getElementById('t-dias').innerText = Math.floor((diasTotaisCasal % 365) % 30);
+            // Atualização no HTML
+            document.getElementById('t-anos').innerText = Math.floor(diasTotais / 365);
+            document.getElementById('t-meses').innerText = Math.floor((diasTotais % 365) / 30);
+            document.getElementById('t-dias').innerText = Math.floor((diasTotais % 365) % 30);
             document.getElementById('t-horas').innerText = horTotal % 24;
             document.getElementById('t-min').innerText = minTotal % 60;
             document.getElementById('t-seg').innerText = segTotal % 60;
         }
+
+        // Executar a cada 1 segundo
         setInterval(atualizarContador, 1000);
         atualizarContador();
-
-
-        // ================== LÓGICA DOS STORIES ==================
-        let currentStory = 0;
-        let storyTimer;
-        const STORY_DURATION = 5000;
-
-        // Estrutura das Telas Baseada nas Suas Imagens
-        function getStories() {
-            return [
-                {   // Tela 1: Fundo Verde Escuro
-                    html: `
-                        <div class="bg-green-stair">
-                            <div class="story-title-main" style="color: #1DB954;">Leonardo e<br>Yasmin</div>
-                            <div class="story-subtitle" style="color: #FFF;">Os momentos que marcaram<br>essa relação</div>
-                        </div>
-                    `
-                },
-                {   // Tela 2: Fundo Vermelho (Losango)
-                    html: `
-                        <div class="bg-red-diamond">
-                            <div class="story-title-main" style="color: #000;">O Wrapped de<br>vocês</div>
-                            <div class="story-subtitle" style="color: #FFF; font-size: 16px;">${diasTotaisCasal} dias de histórias, momentos<br>e conexões</div>
-                        </div>
-                    `
-                },
-                {   // Tela 3: Números repetidos (Simulando a imagem 6)
-                    html: `
-                        <div class="bg-repeating">
-                            <div class="repeat-row" style="color: #D374A0;">${diasTotaisCasal}</div>
-                            <div class="repeat-row" style="color: #D67A32;">${diasTotaisCasal}</div>
-                            <div class="repeat-row" style="color: #63339E;">${diasTotaisCasal}</div>
-                            <div class="repeat-row" style="color: #D67A32;">${diasTotaisCasal}</div>
-                            <div class="repeat-row" style="color: #D374A0;">${diasTotaisCasal}</div>
-                            <div class="repeat-row" style="color: #1DB954;">${diasTotaisCasal}</div>
-                            <div class="repeat-row" style="color: #C8E370;">${diasTotaisCasal}</div>
-                        </div>
-                    `
-                }
-            ];
-        }
-
-        function openStory() {
-            document.getElementById('story-modal').style.display = 'flex';
-            currentStory = 0;
-            renderProgressBars();
-            playStory(currentStory);
-        }
-
-        function renderProgressBars() {
-            const container = document.getElementById('progress-container');
-            container.innerHTML = '';
-            getStories().forEach((_, i) => {
-                container.innerHTML += `<div class="story-progress-bar"><div class="story-progress-fill" id="fill-${i}"></div></div>`;
-            });
-        }
-
-        function playStory(index) {
-            clearTimeout(storyTimer);
-            const stories = getStories();
-            
-            // Fechar se acabar
-            if(index >= stories.length) {
-                document.getElementById('story-modal').style.display = 'none';
-                return;
-            }
-
-            document.getElementById('story-content').innerHTML = stories[index].html;
-
-            // Animação das barras
-            for(let i = 0; i < stories.length; i++) {
-                const fill = document.getElementById(`fill-${i}`);
-                fill.style.transition = 'none';
-                if(i < index) { fill.style.width = '100%'; } 
-                else if (i === index) {
-                    fill.style.width = '0%';
-                    setTimeout(() => {
-                        fill.style.transition = `width ${STORY_DURATION}ms linear`;
-                        fill.style.width = '100%';
-                    }, 50);
-                } 
-                else { fill.style.width = '0%'; }
-            }
-
-            storyTimer = setTimeout(() => nextStory(), STORY_DURATION);
-        }
-
-        function nextStory() { currentStory++; playStory(currentStory); }
-        function prevStory() { if(currentStory > 0) { currentStory--; playStory(currentStory); } }
-
     </script>
 </body>
 </html>
