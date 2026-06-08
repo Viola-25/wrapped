@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Wrapped</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #121212;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --card-bg: #282828;
+            --card-hover: #3E3E3E;
+            --spotify-green: #1DB954;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: #000;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 414px; /* iPhone Pro Max width approx */
+            background-color: var(--bg-main);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 40px;
+        }
+
+        /* HEADER */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .top-bar svg { width: 24px; height: 24px; fill: var(--text-primary); cursor: pointer; }
+        .header-title { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+
+        /* PLAYER SECTION */
+        .album-cover { width: 100%; aspect-ratio: 1/1; background-color: #333; border-radius: 8px; object-fit: cover; margin-bottom: 25px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        .song-info-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .song-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.5px; }
+        .song-artist { font-size: 16px; color: var(--text-secondary); font-weight: 400; }
+        .verified-icon { width: 24px; height: 24px; fill: var(--text-primary); }
+
+        /* PROGRESS BAR */
+        .progress-container { margin-bottom: 15px; cursor: pointer; }
+        .progress-bar { width: 100%; height: 4px; background-color: #4D4D4D; border-radius: 2px; position: relative; }
+        .progress-fill { width: 30%; height: 100%; background-color: var(--text-primary); border-radius: 2px; position: relative; transition: background-color 0.2s; }
+        .progress-container:hover .progress-fill { background-color: var(--spotify-green); }
+        .progress-handle { width: 12px; height: 12px; background-color: #fff; border-radius: 50%; position: absolute; right: -6px; top: -4px; opacity: 0; transition: opacity 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .progress-container:hover .progress-handle { opacity: 1; }
+        .time-info { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); font-weight: 400; margin-top: 8px; }
+
+        /* CONTROLS */
+        .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .controls svg { fill: var(--text-primary); width: 24px; height: 24px; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
+        .controls svg:hover { opacity: 1; }
+        .controls .play-btn { width: 64px; height: 64px; background-color: var(--text-primary); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 1; transition: transform 0.1s; }
+        .controls .play-btn:active { transform: scale(0.95); }
+        .controls .play-btn svg { fill: #000; width: 28px; height: 28px; margin-left: 4px; opacity: 1; }
+
+        /* CARDS GERAIS */
+        .section-title { font-size: 20px; font-weight: 700; margin-bottom: 15px; letter-spacing: -0.5px; }
+
+        /* CARD: SOBRE O CASAL (GRID) */
+        .stats-card { margin-bottom: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .stat-box { background-color: #242424; border-radius: 8px; padding: 16px 10px; text-align: center; transition: background-color 0.2s; cursor: default; }
+        .stat-box:hover { background-color: #2A2A2A; }
+        .stat-value { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+        .stat-label { font-size: 12px; color: var(--text-secondary); font-weight: 400; }
+
+        /* CARD: MENSAGEM AZUL */
+        .message-card { background-color: #559DD9; border-radius: 12px; padding: 24px; margin-bottom: 20px; color: #000; }
+        .message-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; opacity: 0.9; }
+        .message-card p { font-size: 22px; font-weight: 700; line-height: 1.3; letter-spacing: -0.5px; margin-bottom: 24px; }
+        .btn-white { background-color: #fff; color: #000; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; display: inline-block; transition: transform 0.1s; }
+        .btn-white:active { transform: scale(0.95); }
+
+        /* CARD: RETROSPECTIVA PRETO */
+        .wrapped-card { background-color: #0A0A0A; border-radius: 12px; padding: 40px 24px; text-align: center; position: relative; overflow: hidden; cursor: pointer; border: 1px solid #222; }
+        .wrapped-card h2 { font-size: 28px; font-weight: 900; margin-bottom: 8px; letter-spacing: -1px; z-index: 2; position: relative; }
+        .wrapped-card p { font-size: 15px; color: var(--text-secondary); margin-bottom: 24px; z-index: 2; position: relative; }
+        .btn-blue { background-color: #3B82F6; color: #fff; padding: 12px 32px; border-radius: 30px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; position: relative; z-index: 2; transition: transform 0.1s; }
+        .btn-blue:active { transform: scale(0.95); }
+        
+        /* Simulação das fitas 3D da imagem */
+        .ribbon-top { position: absolute; top: -20px; left: -20px; width: 120%; height: 60px; background: linear-gradient(90deg, #ff0a54, #ff477e, #0A0A0A); transform: rotate(-5deg); filter: blur(8px); opacity: 0.6; z-index: 1; }
+        .ribbon-bottom { position: absolute; bottom: -20px; right: -20px; width: 120%; height: 80px; background: linear-gradient(90deg, #0A0A0A, #ff477e, #ff0a54); transform: rotate(-5deg); filter: blur(8px); opacity: 0.6; z-index: 1; }
+
+        /* ================= STORIES (WRAPPED) ================= */
+        .story-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #000; z-index: 1000; display: none; flex-direction: column; }
+        
+        /* Progresso igual ao Insta/Spotify */
+        .story-progress-container { display: flex; gap: 4px; padding: 12px 8px; width: 100%; position: absolute; top: 0; z-index: 1001; }
+        .story-progress-bar { flex: 1; height: 2px; background-color: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden; }
+        .story-progress-fill { width: 0%; height: 100%; background-color: #fff; }
+        
+        .story-content { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; }
+        
+        /* Zonas de clique para passar/voltar */
+        .nav-left { position: absolute; left: 0; top: 0; width: 30%; height: 100%; z-index: 1000; cursor: pointer; }
+        .nav-right { position: absolute; right: 0; top: 0; width: 70%; height: 100%; z-index: 1000; cursor: pointer; }
+
+        /* Estilos visuais dinâmicos para as telas do story */
+        .story-title-main { font-size: 36px; font-weight: 900; letter-spacing: -1.5px; z-index: 10; line-height: 1.1; }
+        .story-subtitle { font-size: 18px; font-weight: 600; margin-top: 15px; z-index: 10; }
+        
+        /* Telas Específicas (Simulando as imagens) */
+        .bg-green-stair { background-color: #000; position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; }
+        .bg-green-stair::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0A4A1C 0%, #000000 50%, #0A4A1C 100%); z-index: 1; opacity: 0.8; }
+        
+        .bg-red-diamond { background-color: #000; position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; }
+        .bg-red-diamond::before { content: ""; position: absolute; top: 10%; left: 50%; transform: translateX(-50%) rotate(45deg); width: 80vw; height: 80vw; background-color: #B91D1D; z-index: 1; border-radius: 20px; }
+
+        .bg-repeating { display: flex; flex-direction: column; height: 100%; width: 100%; justify-content: space-around; background-color: #000; overflow: hidden; padding: 20px 0;}
+        .repeat-row { font-size: 60px; font-weight: 900; letter-spacing: -3px; line-height: 0.8; width: 150%; text-align: left; margin-left: -10px; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="top-bar">
+            <svg viewBox="0 0 24 24"><path d="M15.957 2.793a1 1 0 0 1 0 1.414L8.164 12l7.793 7.793a1 1 0 1 1-1.414 1.414L5.336 12l9.207-9.207a1 1 0 0 1 1.414 0z"/></svg>
+            <div class="header-title">Juntos para sempre ❤️</div>
+            <svg viewBox="0 0 24 24"><path d="M4.5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm7.5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm7.5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
+        </div>
+
+        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=400&auto=format&fit=crop" alt="Capa" class="album-cover">
+        
+        <div class="song-info-container">
+            <div>
+                <div class="song-title">Still Loving You</div>
+                <div class="song-artist">Leonardo e Yasmin</div>
+            </div>
+            <svg class="verified-icon" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1.25 14L6.5 11.75l1.41-1.41 2.84 2.83 6.09-6.09 1.41 1.42L10.75 16z"/></svg>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill"><div class="progress-handle"></div></div>
+            </div>
+            <div class="time-info">
+                <span>0:01</span>
+                <span>-4:46</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <svg viewBox="0 0 16 16"><path d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75 13.15.922zM.391 3.5H0V2h.391c1.109 0 2.16.513 2.826 1.396l.683.905-1.167 1.36-.532-.705A2.25 2.25 0 0 0 .39 3.5zm10.769 8.96c-.198 0-.395-.038-.582-.112l-1.086 1.266c.516.273 1.092.417 1.668.417h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 12.25l-2.829-2.828a.75.75 0 0 0-1.06 1.06l1.018 1.018h-1.947a2.25 2.25 0 0 1-1.378-.444z"/></svg>
+            <svg viewBox="0 0 16 16"><path d="M3.3 1a.7.7 0 0 1 .7.7v5.15l9.95-5.744a.7.7 0 0 1 1.05.606v12.575a.7.7 0 0 1-1.05.607L4 9.149V14.3a.7.7 0 0 1-1.4 0V1.7a.7.7 0 0 1 .7-.7z"/></svg>
+            <div class="play-btn">
+                <svg viewBox="0 0 24 24"><path d="M7.05 3.606l13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"/></svg>
+            </div>
+            <svg viewBox="0 0 16 16"><path d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.106A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 1.4 0V1.7a.7.7 0 0 0-.7-.7z"/></svg>
+            <svg viewBox="0 0 16 16"><path d="M0 4.75A3.75 3.75 0 0 1 3.75 1h8.5A3.75 3.75 0 0 1 16 4.75v5a3.75 3.75 0 0 1-3.75 3.75H9.81l1.018 1.018a.75.75 0 1 1-1.06 1.06L6.939 12.75l2.829-2.828a.75.75 0 1 1 1.06 1.06L9.811 12h2.439a2.25 2.25 0 0 0 2.25-2.25v-5a2.25 2.25 0 0 0-2.25-2.25h-8.5A2.25 2.25 0 0 0 1.5 4.75v5A2.25 2.25 0 0 0 3.75 12H5v1.5H3.75A3.75 3.75 0 0 1 0 9.75v-5z"/></svg>
+        </div>
+
+        <div class="section-title">Leonardo e Yasmin</div>
+        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 15px; margin-top: -10px;">Juntos desde 2022</p>
+        
+        <div class="stats-card">
+            <div class="stats-grid">
+                <div class="stat-box"><div class="stat-value" id="t-anos">0</div><div class="stat-label">Anos</div></div>
+                <div class="stat-box"><div class="stat-value" id="t-meses">0</div><div class="stat-label">Meses</div></div>
+                <div class="stat-box"><div class="stat-value" id="t-dias">0</div><div class="stat-label">Dias</div></div>
+                <div class="stat-box"><div class="stat-value" id="t-horas">0</div><div class="stat-label">Horas</div></div>
+                <div class="stat-box"><div class="stat-value" id="t-min">0</div><div class="stat-label">Minutos</div></div>
+                <div class="stat-box"><div class="stat-value" id="t-seg">0</div><div class="stat-label">Segundos</div></div>
+            </div>
+        </div>
+
+        <div class="message-card">
+            <h3>Mensagem especial</h3>
+            <p>E pensar que tudo começou do nada... ✨ Olha só pra gente agora: escrevendo nossa própria história.</p>
+            <button class="btn-white">Mostrar Mensagem</button>
+        </div>
+
+        <div class="wrapped-card" onclick="openStory()">
+            <div class="ribbon-top"></div>
+            <h2>Sua Retrospectiva</h2>
+            <p>Explore o seu tempo de casal</p>
+            <button class="btn-blue">Vamos lá</button>
+            <div class="ribbon-bottom"></div>
+        </div>
+    </div>
+
+    <div class="story-container" id="story-modal">
+        <div class="story-progress-container" id="progress-container"></div>
+        
+        <div class="nav-left" onclick="prevStory()"></div>
+        <div class="nav-right" onclick="nextStory()"></div>
+
+        <div class="story-content" id="story-content">
+            </div>
+    </div>
+
+    <script>
+        // ================== CONTADOR DE TEMPO ==================
+        // Altere a data aqui: Ano, Mês (0=Jan, 1=Fev...), Dia
+        const dataInicio = new Date(2022, 0, 1, 0, 0, 0); 
+        let diasTotaisCasal = 0;
+
+        function atualizarContador() {
+            const diferenca = new Date() - dataInicio;
+
+            const segTotal = Math.floor(diferenca / 1000);
+            const minTotal = Math.floor(segTotal / 60);
+            const horTotal = Math.floor(minTotal / 60);
+            diasTotaisCasal = Math.floor(horTotal / 24);
+
+            document.getElementById('t-anos').innerText = Math.floor(diasTotaisCasal / 365);
+            document.getElementById('t-meses').innerText = Math.floor((diasTotaisCasal % 365) / 30);
+            document.getElementById('t-dias').innerText = Math.floor((diasTotaisCasal % 365) % 30);
+            document.getElementById('t-horas').innerText = horTotal % 24;
+            document.getElementById('t-min').innerText = minTotal % 60;
+            document.getElementById('t-seg').innerText = segTotal % 60;
+        }
+        setInterval(atualizarContador, 1000);
+        atualizarContador();
+
+
+        // ================== LÓGICA DOS STORIES ==================
+        let currentStory = 0;
+        let storyTimer;
+        const STORY_DURATION = 5000;
+
+        // Estrutura das Telas Baseada nas Suas Imagens
+        function getStories() {
+            return [
+                {   // Tela 1: Fundo Verde Escuro
+                    html: `
+                        <div class="bg-green-stair">
+                            <div class="story-title-main" style="color: #1DB954;">Leonardo e<br>Yasmin</div>
+                            <div class="story-subtitle" style="color: #FFF;">Os momentos que marcaram<br>essa relação</div>
+                        </div>
+                    `
+                },
+                {   // Tela 2: Fundo Vermelho (Losango)
+                    html: `
+                        <div class="bg-red-diamond">
+                            <div class="story-title-main" style="color: #000;">O Wrapped de<br>vocês</div>
+                            <div class="story-subtitle" style="color: #FFF; font-size: 16px;">${diasTotaisCasal} dias de histórias, momentos<br>e conexões</div>
+                        </div>
+                    `
+                },
+                {   // Tela 3: Números repetidos (Simulando a imagem 6)
+                    html: `
+                        <div class="bg-repeating">
+                            <div class="repeat-row" style="color: #D374A0;">${diasTotaisCasal}</div>
+                            <div class="repeat-row" style="color: #D67A32;">${diasTotaisCasal}</div>
+                            <div class="repeat-row" style="color: #63339E;">${diasTotaisCasal}</div>
+                            <div class="repeat-row" style="color: #D67A32;">${diasTotaisCasal}</div>
+                            <div class="repeat-row" style="color: #D374A0;">${diasTotaisCasal}</div>
+                            <div class="repeat-row" style="color: #1DB954;">${diasTotaisCasal}</div>
+                            <div class="repeat-row" style="color: #C8E370;">${diasTotaisCasal}</div>
+                        </div>
+                    `
+                }
+            ];
+        }
+
+        function openStory() {
+            document.getElementById('story-modal').style.display = 'flex';
+            currentStory = 0;
+            renderProgressBars();
+            playStory(currentStory);
+        }
+
+        function renderProgressBars() {
+            const container = document.getElementById('progress-container');
+            container.innerHTML = '';
+            getStories().forEach((_, i) => {
+                container.innerHTML += `<div class="story-progress-bar"><div class="story-progress-fill" id="fill-${i}"></div></div>`;
+            });
+        }
+
+        function playStory(index) {
+            clearTimeout(storyTimer);
+            const stories = getStories();
+            
+            // Fechar se acabar
+            if(index >= stories.length) {
+                document.getElementById('story-modal').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('story-content').innerHTML = stories[index].html;
+
+            // Animação das barras
+            for(let i = 0; i < stories.length; i++) {
+                const fill = document.getElementById(`fill-${i}`);
+                fill.style.transition = 'none';
+                if(i < index) { fill.style.width = '100%'; } 
+                else if (i === index) {
+                    fill.style.width = '0%';
+                    setTimeout(() => {
+                        fill.style.transition = `width ${STORY_DURATION}ms linear`;
+                        fill.style.width = '100%';
+                    }, 50);
+                } 
+                else { fill.style.width = '0%'; }
+            }
+
+            storyTimer = setTimeout(() => nextStory(), STORY_DURATION);
+        }
+
+        function nextStory() { currentStory++; playStory(currentStory); }
+        function prevStory() { if(currentStory > 0) { currentStory--; playStory(currentStory); } }
+
+    </script>
+</body>
+</html>
