@@ -94,6 +94,64 @@
       transition: background-color 0.2s ease;
     }
 
+    /* ── VINIL GIRANDO ── */
+    @keyframes spin-record { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .vinyl-overlay {
+      position: absolute; inset: 0; border-radius: inherit;
+      background: repeating-conic-gradient(
+        rgba(0,0,0,0) 0deg,
+        rgba(255,255,255,0.02) 0.5deg,
+        rgba(0,0,0,0) 1deg
+      );
+      pointer-events: none; z-index: 1;
+      opacity: 0; transition: opacity 0.5s ease;
+    }
+    .vinyl-overlay.playing { opacity: 1; animation: spin-record 2s linear infinite; }
+    .vinyl-hole {
+      position: absolute; top: 50%; left: 50%;
+      width: 14%; aspect-ratio: 1; border-radius: 50%;
+      background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.1);
+      transform: translate(-50%, -50%);
+      pointer-events: none; z-index: 2;
+      opacity: 0; transition: opacity 0.5s ease;
+    }
+    .vinyl-hole.playing { opacity: 1; }
+
+    /* ── ONDAS SONORAS ── */
+    .sound-wave {
+      display: flex; align-items: center; gap: 2px; height: 16px;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .sound-wave.active { opacity: 1; }
+    .sound-wave span {
+      display: block; width: 3px; border-radius: 2px;
+      background: #1DB954;
+      animation: wave 1s ease-in-out infinite alternate;
+    }
+    .sound-wave span:nth-child(1) { height: 6px; animation-delay: 0s; }
+    .sound-wave span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+    .sound-wave span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+    .sound-wave span:nth-child(4) { height: 14px; animation-delay: 0.45s; }
+    .sound-wave span:nth-child(5) { height: 10px; animation-delay: 0.6s; }
+    .sound-wave span:nth-child(6) { height: 16px; animation-delay: 0.1s; }
+    .sound-wave span:nth-child(7) { height: 7px; animation-delay: 0.4s; }
+    .sound-wave span:nth-child(8) { height: 11px; animation-delay: 0.25s; }
+    @keyframes wave { 0% { transform: scaleY(0.3); } 100% { transform: scaleY(1); } }
+
+    /* ── CORAÇÕES FLUTUANDO ── */
+    @keyframes float-up {
+      0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
+      20% { opacity: 0.5; }
+      80% { opacity: 0.3; }
+      100% { transform: translateY(-100dvh) rotate(15deg) scale(1); opacity: 0; }
+    }
+    .bg-heart {
+      position: fixed; pointer-events: none; z-index: 0;
+      animation: float-up var(--dur, 14s) linear infinite;
+      animation-delay: var(--delay, 0s);
+      font-size: var(--size, 14px);
+    }
+
     /* ── TIMELINE ── */
     @keyframes pulse-dot {
       0%, 100% { box-shadow: 0 0 8px rgba(244, 114, 182, 0.6); }
@@ -215,8 +273,10 @@
       <!-- capa do álbum -->
       <div class="relative w-full aspect-square rounded-xl overflow-hidden album-glow mb-8 group">
         <img src="0.jpg" alt="Enzo & Júlia" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="vinyl-overlay" id="vinyl-overlay"></div>
+        <div class="vinyl-hole" id="vinyl-hole"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-        <div class="absolute bottom-4 left-4">
+        <div class="absolute bottom-4 left-4 z-10">
           <div class="text-[11px] font-bold text-white/60 tracking-[0.15em] uppercase mb-1">Música do Casal</div>
           <div class="text-lg font-bold text-white">Seu Astral</div>
           <div class="text-sm text-white/70">Jorge &amp; Mateus</div>
@@ -229,7 +289,13 @@
           <div class="text-lg font-bold text-white">Seu Astral</div>
           <div class="text-sm text-[#B3B3B3]">Jorge &amp; Mateus</div>
         </div>
-        <svg class="w-5 h-5 fill-[#1DB954]" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1.25 14L6.5 11.75l1.41-1.41 2.84 2.83 6.09-6.09 1.41 1.42L10.75 16z"/></svg>
+        <div class="flex items-center gap-2">
+          <div class="sound-wave" id="sound-wave">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <svg class="w-5 h-5 fill-[#1DB954]" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1.25 14L6.5 11.75l1.41-1.41 2.84 2.83 6.09-6.09 1.41 1.42L10.75 16z"/></svg>
+        </div>
       </div>
 
       <!-- progresso -->
@@ -872,6 +938,9 @@
   </div>
   <!-- ─── FIM WRAPPER ─── -->
 
+  <!-- corações flutuando -->
+  <div id="bg-hearts" aria-hidden="true"></div>
+
   <audio id="musica" loop>
     <source src="https://s3.ustatik.com/audio.com.audio/transcoding/79/55/1839575523535579-1839575523571338-1839575527333023.mp3?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=F0E8U41NBMMW3Y027UTJ%2F20260608%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260608T202823Z&X-Amz-SignedHeaders=host&X-Amz-Expires=518400&X-Amz-Signature=be14278f80a6c9972706c11b599b98a5cf43b3586a8551ec4a42bdafc1f9b012" type="audio/mpeg">
   </audio>
@@ -963,15 +1032,30 @@
       }
     }
 
+    const vinylOverlay = document.getElementById('vinyl-overlay');
+    const vinylHole = document.getElementById('vinyl-hole');
+    const soundWave = document.getElementById('sound-wave');
+
     function togglePlay() {
       if (audio.paused) {
         audio.play();
         iconePlay.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+        vinylOverlay.classList.add('playing');
+        vinylHole.classList.add('playing');
+        soundWave.classList.add('active');
       } else {
         audio.pause();
         iconePlay.innerHTML = '<path d="M7.05 3.606l13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"/>';
+        vinylOverlay.classList.remove('playing');
+        vinylHole.classList.remove('playing');
+        soundWave.classList.remove('active');
       }
     }
+
+    // ao carregar a página, começa pausado — sem vinil nem ondas
+    vinylOverlay.classList.remove('playing');
+    vinylHole.classList.remove('playing');
+    soundWave.classList.remove('active');
 
     // ════════════════════════════════════════════
     // SCROLL REVEAL
@@ -987,6 +1071,22 @@
     }, { threshold: 0.15 });
 
     revealEls.forEach(el => observer.observe(el));
+
+    // ════════════════════════════════════════════
+    // CORAÇÕES FLUTUANDO
+    // ════════════════════════════════════════════
+    const heartsContainer = document.getElementById('bg-hearts');
+    const heartSymbols = ['❤️', '💕', '💗', '🩷'];
+    for (let i = 0; i < 14; i++) {
+      const el = document.createElement('span');
+      el.className = 'bg-heart';
+      el.textContent = heartSymbols[i % heartSymbols.length];
+      el.style.left = (5 + Math.random() * 90) + '%';
+      el.style.setProperty('--dur', (12 + Math.random() * 18) + 's');
+      el.style.setProperty('--delay', (Math.random() * 20) + 's');
+      el.style.setProperty('--size', (10 + Math.random() * 12) + 'px');
+      heartsContainer.appendChild(el);
+    }
 
     // ════════════════════════════════════════════
     // LIGHTBOX
