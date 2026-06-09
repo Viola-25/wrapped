@@ -1101,7 +1101,7 @@
     }
 
     function fecharFoto(e) {
-      if (e && e.target !== lightboxImg) return; // só fecha clicando no fundo ou no X
+      if (e && e.target === lightboxImg) return; // clicar na imagem não fecha
       lightbox.classList.add('hidden');
       lightboxImg.src = '';
       document.body.style.overflow = '';
