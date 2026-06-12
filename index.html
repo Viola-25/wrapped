@@ -107,16 +107,6 @@
       opacity: 0; transition: opacity 0.5s ease;
     }
     .vinyl-overlay.playing { opacity: 1; animation: spin-record 2s linear infinite; }
-    .vinyl-hole {
-      position: absolute; top: 50%; left: 50%;
-      width: 14%; aspect-ratio: 1; border-radius: 50%;
-      background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.1);
-      transform: translate(-50%, -50%);
-      pointer-events: none; z-index: 2;
-      opacity: 0; transition: opacity 0.5s ease;
-    }
-    .vinyl-hole.playing { opacity: 1; }
-
     /* ── ONDAS SONORAS ── */
     .sound-wave {
       display: flex; align-items: center; gap: 2px; height: 16px;
@@ -264,7 +254,6 @@
       <div class="relative w-full aspect-square rounded-xl overflow-hidden album-glow mb-8 group">
         <img src="0.jpg" alt="Enzo & Júlia" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
         <div class="vinyl-overlay" id="vinyl-overlay"></div>
-        <div class="vinyl-hole" id="vinyl-hole"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
         <div class="absolute bottom-4 left-4 z-10">
           <div class="text-[11px] font-bold text-white/60 tracking-[0.15em] uppercase mb-1">Música do Casal</div>
@@ -1098,7 +1087,6 @@
     }
 
     const vinylOverlay = document.getElementById('vinyl-overlay');
-    const vinylHole = document.getElementById('vinyl-hole');
     const soundWave = document.getElementById('sound-wave');
 
     function togglePlay() {
@@ -1106,20 +1094,17 @@
         audio.play();
         iconePlay.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
         vinylOverlay.classList.add('playing');
-        vinylHole.classList.add('playing');
         soundWave.classList.add('active');
       } else {
         audio.pause();
         iconePlay.innerHTML = '<path d="M7.05 3.606l13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"/>';
         vinylOverlay.classList.remove('playing');
-        vinylHole.classList.remove('playing');
         soundWave.classList.remove('active');
       }
     }
 
     // ao carregar a página, começa pausado — sem vinil nem ondas
     vinylOverlay.classList.remove('playing');
-    vinylHole.classList.remove('playing');
     soundWave.classList.remove('active');
 
     // ════════════════════════════════════════════
