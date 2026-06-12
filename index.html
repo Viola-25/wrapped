@@ -171,16 +171,6 @@
       opacity: 0.5;
     }
 
-    /* ── MESSAGE ── */
-    @keyframes fade-in-up {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .msg-line {
-      opacity: 0;
-      animation: fade-in-up 0.6s ease-out forwards;
-    }
-
     /* ── COVER PARALLAX ── */
     @keyframes cover-float {
       0%, 100% { transform: translateY(0); }
@@ -905,29 +895,104 @@
 
         <h2 class="text-2xl font-black text-white mb-6">Feliz Dia dos Namorados, Júlia ❤️</h2>
 
-        <div class="text-sm text-[#B3B3B3] leading-relaxed space-y-4">
-          <p class="msg-line" style="animation-delay: 0.2s;">
-            De um simples encontro que o destino preparou, nasceu a história mais bonita que eu poderia viver. Meu amor, sei que nem tudo é perfeito, mas cada momento ao seu lado é um capítulo que eu guardo com carinho no meu coração. 
-          </p>
-          <p class="msg-line" style="animation-delay: 0.6s;">
-            Hoje estamos comemorando mais um dia dos namorados, mas não é "só mais um dia" que quero comemorar, mas sim, mais um dia na melhor companhia que eu poderia ter.
-          </p>
-          <p class="msg-line" style="animation-delay: 1s;">
-            O seu sorriso é a coisa mais linda que eu já vi. Ele tem o poder de iluminar os meus dias mais escuros e me fazer sentir a pessoa mais sortuda do mundo. Agradeço muito a Deus por ter colocado você na minha vida, e por cada momento que vivemos. Quero também pedir desculpas pelos momentos em que não fui o melhor, mas saiba que cada erro meu é uma oportunidade de aprender e crescer para ser a pessoa que você merece. 
-          </p>
-          <p class="msg-line font-semibold text-white mt-6" style="animation-delay: 1.4s;">
-            Feliz dia dos namorados minha linda! Eu amo você, sempre. 💕
-          </p>
-          <p class="msg-line text-[11px] text-[#5A5A5A] mt-8" style="animation-delay: 1.8s;">
-            Com todo amor,<br/>
-            <span class="font-bold text-[#B3B3B3]">Enzo</span>
-          </p>
-        </div>
+        <div class="text-sm text-[#B3B3B3] leading-relaxed space-y-4" id="typing-container"></div>
       </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         SEÇÃO 12 — FOOTER
+         SEÇÃO 12 — PRÓXIMOS CAPÍTULOS
+         ════════════════════════════════════════════════════════ -->
+    <section class="w-full py-20 px-6 reveal" style="background: #0a0a0a; border-top: 1px solid #222;">
+      <h2 class="text-3xl font-black tracking-tight text-white text-center mb-4">Próximos Capítulos 📖</h2>
+      <p class="text-sm text-[#B3B3B3] text-center mb-10">O que ainda vamos viver juntos</p>
+
+      <div class="w-full max-w-sm mx-auto space-y-3" id="checklist">
+        <div class="checklist-item flex items-center gap-4 bg-[#1A1A1A] rounded-xl p-4 border border-[#2A2A2A] cursor-pointer hover:border-[#F472B6]/30 transition-all" onclick="toggleItem(this)">
+          <div class="check-circle w-6 h-6 rounded-full border-2 border-[#4D4D4D] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+            <svg class="w-3.5 h-3.5 fill-[#1DB954] hidden" viewBox="0 0 24 24"><path d="M 9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white">🎓 Eu me formar em Medicina</div>
+            <div class="text-[11px] text-[#5A5A5A]">2026</div>
+          </div>
+        </div>
+
+        <div class="checklist-item flex items-center gap-4 bg-[#1A1A1A] rounded-xl p-4 border border-[#2A2A2A] cursor-pointer hover:border-[#F472B6]/30 transition-all" onclick="toggleItem(this)">
+          <div class="check-circle w-6 h-6 rounded-full border-2 border-[#4D4D4D] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+            <svg class="w-3.5 h-3.5 fill-[#1DB954] hidden" viewBox="0 0 24 24"><path d="M 9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white">🏠 Morarmos juntos</div>
+            <div class="text-[11px] text-[#5A5A5A]">Nosso lar</div>
+          </div>
+        </div>
+
+        <div class="checklist-item flex items-center gap-4 bg-[#1A1A1A] rounded-xl p-4 border border-[#2A2A2A] cursor-pointer hover:border-[#F472B6]/30 transition-all" onclick="toggleItem(this)">
+          <div class="check-circle w-6 h-6 rounded-full border-2 border-[#4D4D4D] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+            <svg class="w-3.5 h-3.5 fill-[#1DB954] hidden" viewBox="0 0 24 24"><path d="M 9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white">📚 Ela se formar em Medicina</div>
+            <div class="text-[11px] text-[#5A5A5A]">2028</div>
+          </div>
+        </div>
+
+        <div class="checklist-item flex items-center gap-4 bg-[#1A1A1A] rounded-xl p-4 border border-[#2A2A2A] cursor-pointer hover:border-[#F472B6]/30 transition-all" onclick="toggleItem(this)">
+          <div class="check-circle w-6 h-6 rounded-full border-2 border-[#4D4D4D] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+            <svg class="w-3.5 h-3.5 fill-[#1DB954] hidden" viewBox="0 0 24 24"><path d="M 9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white">💍 Casar</div>
+            <div class="text-[11px] text-[#5A5A5A]">O dia mais feliz</div>
+          </div>
+        </div>
+
+        <div class="checklist-item flex items-center gap-4 bg-[#1A1A1A] rounded-xl p-4 border border-[#2A2A2A] cursor-pointer hover:border-[#F472B6]/30 transition-all" onclick="toggleItem(this)">
+          <div class="check-circle w-6 h-6 rounded-full border-2 border-[#4D4D4D] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+            <svg class="w-3.5 h-3.5 fill-[#1DB954] hidden" viewBox="0 0 24 24"><path d="M 9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white">🩺 Fazer residência</div>
+            <div class="text-[11px] text-[#5A5A5A]">Especialização médica</div>
+          </div>
+        </div>
+
+        <div class="checklist-item flex items-center gap-4 bg-[#1A1A1A] rounded-xl p-4 border border-[#2A2A2A] cursor-pointer hover:border-[#F472B6]/30 transition-all" onclick="toggleItem(this)">
+          <div class="check-circle w-6 h-6 rounded-full border-2 border-[#4D4D4D] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+            <svg class="w-3.5 h-3.5 fill-[#1DB954] hidden" viewBox="0 0 24 24"><path d="M 9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white">👶 Ter filhos</div>
+            <div class="text-[11px] text-[#5A5A5A]">Nossa família</div>
+          </div>
+        </div>
+
+        <div class="checklist-item flex items-center gap-4 bg-[#1A1A1A] rounded-xl p-4 border border-[#2A2A2A] cursor-pointer hover:border-[#F472B6]/30 transition-all" onclick="toggleItem(this)">
+          <div class="check-circle w-6 h-6 rounded-full border-2 border-[#4D4D4D] flex items-center justify-center flex-shrink-0 transition-all duration-300">
+            <svg class="w-3.5 h-3.5 fill-[#1DB954] hidden" viewBox="0 0 24 24"><path d="M 9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white">✈️ 1ª viagem internacional</div>
+            <div class="text-[11px] text-[#5A5A5A]">Conhecendo o mundo juntos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full max-w-sm mx-auto mt-10">
+        <div class="flex justify-between text-[11px] text-[#B3B3B3] font-semibold mb-2">
+          <span>Nossa jornada</span>
+          <span id="checklist-progress">0/7</span>
+        </div>
+        <div class="w-full h-1.5 bg-[#2A2A2A] rounded-full overflow-hidden">
+          <div id="checklist-bar" class="h-full rounded-full transition-all duration-500 ease-out" style="background: linear-gradient(90deg, #F472B6, #A78BFA); width: 0%;"></div>
+        </div>
+      </div>
+
+      <p class="text-center text-[#4D4D4D] text-xs font-semibold mt-10">Cada capítulo é mais especial com você 💕</p>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         SEÇÃO 13 — FOOTER
          ════════════════════════════════════════════════════════ -->
     <footer class="w-full py-10 px-6 flex flex-col items-center text-center" style="background: #080808; border-top: 1px solid #1A1A1A;">
       <svg class="w-6 h-6 fill-[#1DB954] mb-3 opacity-50" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1.25 14L6.5 11.75l1.41-1.41 2.84 2.83 6.09-6.09 1.41 1.42L10.75 16z"/></svg>
@@ -942,7 +1007,7 @@
   <div id="bg-hearts" aria-hidden="true"></div>
 
   <audio id="musica" loop>
-    <source src="https://s3.ustatik.com/audio.com.audio/transcoding/79/55/1839575523535579-1839575523571338-1839575527333023.mp3?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=F0E8U41NBMMW3Y027UTJ%2F20260608%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260608T202823Z&X-Amz-SignedHeaders=host&X-Amz-Expires=518400&X-Amz-Signature=be14278f80a6c9972706c11b599b98a5cf43b3586a8551ec4a42bdafc1f9b012" type="audio/mpeg">
+    <source src="musica.mp3" type="audio/mpeg">
   </audio>
 
   <script>
@@ -1114,6 +1179,97 @@
         document.body.style.overflow = '';
       }
     });
+
+    // ════════════════════════════════════════════
+    // TYPING EFFECT — CARTA FINAL
+    // ════════════════════════════════════════════
+    const typingLines = [
+      'De um simples encontro que o destino preparou, nasceu a história mais bonita que eu poderia viver. Meu amor, sei que nem tudo é perfeito, mas cada momento ao seu lado é um capítulo que eu guardo com carinho no meu coração.',
+      'Hoje estamos comemorando mais um dia dos namorados, mas não é "só mais um dia" que quero comemorar, mas sim, mais um dia na melhor companhia que eu poderia ter.',
+      'O seu sorriso é a coisa mais linda que eu já vi. Ele tem o poder de iluminar os meus dias mais escuros e me fazer sentir a pessoa mais sortuda do mundo. Agradeço muito a Deus por ter colocado você na minha vida, e por cada momento que vivemos. Quero também pedir desculpas pelos momentos em que não fui o melhor, mas saiba que cada erro meu é uma oportunidade de aprender e crescer para ser a pessoa que você merece.',
+      'Feliz dia dos namorados minha linda! Eu amo você, sempre. 💕',
+      'Com todo amor,\nEnzo',
+    ];
+    const typingClasses = ['', '', '', 'font-semibold text-white mt-6', 'text-[11px] text-[#5A5A5A] mt-8'];
+
+    let typingIdx = 0;
+    let typingCh = 0;
+    let typingEl = null;
+    let typingTimer = null;
+
+    function iniciarTyping() {
+      const container = document.getElementById('typing-container');
+      if (!container || container.dataset.typingStarted) return;
+      container.dataset.typingStarted = 'true';
+      container.innerHTML = '';
+      typingIdx = 0;
+      typingCh = 0;
+      proximoChar();
+    }
+
+    function proximoChar() {
+      if (typingIdx >= typingLines.length) return;
+      const container = document.getElementById('typing-container');
+      const line = typingLines[typingIdx];
+
+      if (typingCh === 0) {
+        typingEl = document.createElement('p');
+        if (typingClasses[typingIdx]) typingEl.className = typingClasses[typingIdx];
+        container.appendChild(typingEl);
+      }
+
+      if (typingCh < line.length) {
+        const c = line[typingCh];
+        const displayed = line.substring(0, typingCh + 1);
+        typingEl.innerHTML = displayed.replace(/\n/g, '<br/>') +
+          '<span class="inline-block w-[2px] h-[14px] bg-[#F472B6] ml-0.5 animate-pulse"></span>';
+        typingCh++;
+        const speed = ['.', '!', '?', ',', ';', ':'].includes(c) ? 70 : 20;
+        typingTimer = setTimeout(proximoChar, speed);
+      } else {
+        typingEl.innerHTML = line.replace(/\n/g, '<br/>');
+        typingCh = 0;
+        typingIdx++;
+        typingTimer = setTimeout(proximoChar, 500);
+      }
+    }
+
+    // observer para iniciar typing quando a seção aparecer
+    const typingObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          iniciarTyping();
+          typingObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const typingSection = document.querySelector('#typing-container');
+    if (typingSection) typingObserver.observe(typingSection.closest('section') || typingSection);
+
+    // ════════════════════════════════════════════
+    // CHECKLIST — PRÓXIMOS CAPÍTULOS
+    // ════════════════════════════════════════════
+    function toggleItem(el) {
+      el.classList.toggle('checked');
+      const circle = el.querySelector('.check-circle');
+      const check = circle.querySelector('svg');
+      if (el.classList.contains('checked')) {
+        circle.classList.replace('border-[#4D4D4D]', 'border-[#1DB954]');
+        check.classList.remove('hidden');
+      } else {
+        circle.classList.replace('border-[#1DB954]', 'border-[#4D4D4D]');
+        check.classList.add('hidden');
+      }
+      atualizarChecklist();
+    }
+
+    function atualizarChecklist() {
+      const total = 7;
+      const checked = document.querySelectorAll('.checklist-item.checked').length;
+      document.getElementById('checklist-progress').textContent = checked + '/' + total;
+      document.getElementById('checklist-bar').style.width = (checked / total * 100) + '%';
+    }
   </script>
 </body>
 </html>
